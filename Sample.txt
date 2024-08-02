@@ -1,0 +1,18 @@
+
+#	Country	Population
+(2023)	Land Area
+(Km²)	Density
+(P/Km²)
+1	Afghanistan	42,239,854	652,860	65
+2	Albania	2,832,439	27,400	103
+3	Algeria	45,606,480	2,381,740	19
+4	Andorra	80,088	470	170
+5	Angola	36,684,202	1,246,700	29
+6	Antigua and Barbuda	94,298	440	214
+7	Argentina	45,773,884	2,736,690	17
+8	Armenia	2,777,970	28,470	98
+9	Australia	26,439,111	7,682,300	3
+10	Austria	8,958,960	82,409	109
+11	Azerbaijan	10,412,651	82,658	126
+12	Bahamas	412,623	10,010	41
+13	Bahrain	1,485,509	760	1,955
