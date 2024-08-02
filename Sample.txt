@@ -17,5 +17,4 @@
 12	Bahamas	412,623	10,010	41
 13	Bahrain	1,485,509	760	1,955
 
-qwerty
-12345678i
+Vignesh Git learning
