@@ -1,0 +1,159 @@
+use mongodb_practice
+
+db.movies.insertMany([
+  {
+    title: "Fight Club",
+    writer: "Chuck Palahniuk",
+    year: 1999,
+    actors: ["Brad Pitt", "Edward Norton"]
+  },
+  {
+    title: "Pulp Fiction",
+    writer: "Quentin Tarantino",
+    year: 1994,
+    actors: ["John Travolta", "Uma Thurman"]
+  },
+  {
+    title: "Inglorious Basterds",
+    writer: "Quentin Tarantino",
+    year: 2009,
+    actors: ["Brad Pitt", "Diane Kruger", "Eli Roth"]
+  },
+  {
+    title: "The Hobbit: An Unexpected Journey",
+    writer: "J.R.R. Tolkein",
+    year: 2012,
+    franchise: "The Hobbit"
+  },
+  {
+    title: "The Hobbit: The Desolation of Smaug",
+    writer: "J.R.R. Tolkein",
+    year: 2013,
+    franchise: "The Hobbit"
+  },
+  {
+    title: "The Hobbit: The Battle of the Five Armies",
+    writer: "J.R.R. Tolkein",
+    year: 2012,
+    franchise: "The Hobbit",
+    synopsis: "Bilbo and Company are forced to engage in a war against an array of combatants and keep the Lonely Mountain from falling into the hands of a rising darkness."
+  },
+  {
+    title: "Pee Wee Herman's Big Adventure"
+  },
+  {
+    title: "Avatar"
+  }
+]);
+
+db.movies.find()
+db.movies.find({writer:"Quentin Tarantino"})
+db.movies.find({actors:"Brad Pitt"})
+db.movies.find({franchise:"The Hobbit"})
+db.movies.find({year: { $gte: 1990, $lte: 1999 }});
+db.movies.find({$or: [{ year: {$lt: 2000}},{ year:{ $gt: 2010 }}]});
+db.movies.find({title: { $regex: /^Inglorious/, $options: 'i' }});
+db.movies.find({},{title: 1,actors: 1,_id: 0}).sort({ title: -1 });
+db.movies.find({},{__id: 0}).sort({ year: -1 });
+db.movies.find().limit(1);
+db.movies.find().skip(2).limit(1);
+
+
+
+db.orders.insertMany([
+
+
+
+
+
+db.sales.insertMany([
+  { "_id" : 1, "item" : "abc", "price" : Decimal128("10"), "quantity" : Int32("2"), "date" : ISODate("2014-03-01T08:00:00Z") },
+  { "_id" : 2, "item" : "jkl", "price" : Decimal128("20"), "quantity" : Int32("1"), "date" : ISODate("2014-03-01T09:00:00Z") },
+  { "_id" : 3, "item" : "xyz", "price" : Decimal128("5"), "quantity" : Int32( "10"), "date" : ISODate("2014-03-15T09:00:00Z") },
+  { "_id" : 4, "item" : "xyz", "price" : Decimal128("5"), "quantity" :  Int32("20") , "date" : ISODate("2014-04-04T11:21:39.736Z") },
+  { "_id" : 5, "item" : "abc", "price" : Decimal128("10"), "quantity" : Int32("10") , "date" : ISODate("2014-04-04T21:23:13.331Z") },
+  { "_id" : 6, "item" : "def", "price" : Decimal128("7.5"), "quantity": Int32("5" ) , "date" : ISODate("2015-06-04T05:08:13Z") },
+  { "_id" : 7, "item" : "def", "price" : Decimal128("7.5"), "quantity": Int32("10") , "date" : ISODate("2015-09-10T08:43:00Z") },
+  { "_id" : 8, "item" : "abc", "price" : Decimal128("10"), "quantity" : Int32("5" ) , "date" : ISODate("2016-02-06T20:20:13Z") },
+])
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+db.sales.insertMany([
+  { "_id" : 1, "item" : "abc", "price" : Decimal128("10"), "quantity" : Int32("2"), "date" : ISODate("2014-03-01T08:00:00Z") },
+  { "_id" : 2, "item" : "jkl", "price" : Decimal128("20"), "quantity" : Int32("1"), "date" : ISODate("2014-03-01T09:00:00Z") },
+  { "_id" : 3, "item" : "xyz", "price" : Decimal128("5"), "quantity" : Int32( "10"), "date" : ISODate("2014-03-15T09:00:00Z") },
+  { "_id" : 4, "item" : "xyz", "price" : Decimal128("5"), "quantity" :  Int32("20") , "date" : ISODate("2014-04-04T11:21:39.736Z") },
+  { "_id" : 5, "item" : "abc", "price" : Decimal128("10"), "quantity" : Int32("10") , "date" : ISODate("2014-04-04T21:23:13.331Z") },
+  { "_id" : 6, "item" : "def", "price" : Decimal128("7.5"), "quantity": Int32("5" ) , "date" : ISODate("2015-06-04T05:08:13Z") },
+  { "_id" : 7, "item" : "def", "price" : Decimal128("7.5"), "quantity": Int32("10") , "date" : ISODate("2015-09-10T08:43:00Z") },
+  { "_id" : 8, "item" : "abc", "price" : Decimal128("10"), "quantity" : Int32("5" ) , "date" : ISODate("2016-02-06T20:20:13Z") },
+])
+
+db.sales.aggregate( [
+  {
+    $group: {
+       _id: null,
+       count: { $count: { } }
+    }
+  }
+] )
+
+
+db.sales.aggregate( [ { $group :
+{ _id : "$item" }
+} ] )
+
+
+
+db.sales.aggregate(
+  [
+    // First Stage
+    {
+      $group :
+        {
+          _id : "$item",
+          totalSaleAmount: { $sum: { $multiply: [ "$price", "$quantity" ] } }
+        }
+     }
+    ]
+ )
+ 
+ 
+ db.sales.aggregate(
+  [
+    // First Stage
+    {
+      $group :
+        {
+          _id : "$item",
+          totalSaleAmount: { $sum: { $multiply: [ "$price", "$quantity" ] } }
+        }
+     },
+     {
+        $match : { "totalSaleAmount": { $gte: 100 } }
+     }
+    ]
+ )
+ 
+ db.sales.aggregate([
+  // First Stage
+  {
+    $match : { "date": { $gte: new ISODate("2014-01-01"), $lt: new ISODate("2015-01-01") } }
+  },
+  {
+    $group : {
+       _id : { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+       totalSaleAmount: { $sum: { $multiply: [ "$price", "$quantity" ] } },
+       averageQuantity: { $avg: "$quantity" },
+       count: { $sum: 1 }
+    }
+  },
+    {
+        $match : { "count": { $gt: -1 } }
+     },
+  // Third Stage
+  {
+    $sort : { totalSaleAmount: 1 }
+  }
+  ])

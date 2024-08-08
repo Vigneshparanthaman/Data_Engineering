@@ -57,6 +57,9 @@ db.movies.find({},{title: 1,actors: 1,_id: 0}).sort({ title: -1 });
 db.movies.find({},{_id: 0}).sort({ year: -1 });
 db.movies.find().sort({_id:-1}).limit(1);
 db.movies.find().skip(2).limit(1);
+----------------------------------------------------------------------------------
 
-
-
+db.Zipcodes.aggregate( [
+   { $group: { _id: "$state", totalPop: { $sum: "$pop" } } },
+   { $match: { totalPop: { $gte: 10*1000*1000 } } }
+] )
